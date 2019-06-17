@@ -729,10 +729,10 @@ gst_dshowvideosrc_set_caps (GstBaseSrc * bsrc, GstCaps * caps)
         }
 
         hres = src->pVSC->SetFormat(pin_mediatype->mediatype);
-        if (FAILED (hres)) {
+        /*if (FAILED (hres)) {
           GST_ERROR ("Failed to set capture pin format (error=0x%x)", hres);
           goto error;
-        }
+        }*/
 
         hres = src->filter_graph->ConnectDirect (pin_mediatype->capture_pin,
             input_pin, pin_mediatype->mediatype);
