@@ -856,6 +856,11 @@ gst_dshowvideosrc_stop (GstBaseSrc * bsrc)
     src->video_cap_filter = NULL;
   }
 
+  if (src->pins_mediatypes) {
+	  gst_dshow_free_pins_mediatypes(src->pins_mediatypes);
+	  src->pins_mediatypes = NULL;
+  }
+
   return TRUE;
 }
 
