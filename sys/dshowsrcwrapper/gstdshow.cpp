@@ -101,7 +101,12 @@ gst_dshow_new_pin_mediatype_from_enum_mediatypes (IPin * pin, IEnumMediaTypes *e
 
   pin_mediatype->defaultWidth = video_info->bmiHeader.biWidth;
   pin_mediatype->defaultHeight = video_info->bmiHeader.biHeight;
-  pin_mediatype->defaultFPS = (gint) (10000000 / video_info->AvgTimePerFrame);
+  if (video_info->AvgTimePerFrame == 0) {
+	  pin_mediatype->defaultFPS = 0;
+  }
+  else {
+	  pin_mediatype->defaultFPS = (gint)(10000000 / video_info->AvgTimePerFrame);
+  }
   pin_mediatype->granularityWidth = 1;
   pin_mediatype->granularityHeight = 1;
 
@@ -125,7 +130,12 @@ gst_dshow_new_pin_mediatype_from_streamcaps (IPin * pin, gint id, IAMStreamConfi
 
   pin_mediatype->defaultWidth = video_info->bmiHeader.biWidth;
   pin_mediatype->defaultHeight = video_info->bmiHeader.biHeight;
-  pin_mediatype->defaultFPS = (gint) (10000000 / video_info->AvgTimePerFrame);
+  if (video_info->AvgTimePerFrame == 0) {
+	  pin_mediatype->defaultFPS = 0;
+  }
+  else {
+	  pin_mediatype->defaultFPS = (gint)(10000000 / video_info->AvgTimePerFrame);
+  }
   pin_mediatype->granularityWidth = pin_mediatype->vscc.OutputGranularityX;
   pin_mediatype->granularityHeight = pin_mediatype->vscc.OutputGranularityY;
 
@@ -441,9 +451,6 @@ gst_dshow_select_device (const GUID * device_category,
 
     /* device will be used first, then device-name, then device-index */
     if (device && g_strcmp0 (device, entry->device) == 0) {
-      selected = entry;
-      break;
-    } else if (device_name && g_strcmp0 (device_name, entry->device_name) == 0) {
       selected = entry;
       break;
     } else if (device_index == entry->device_index) {

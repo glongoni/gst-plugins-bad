@@ -215,6 +215,7 @@ gst_dshow_device_create_element (GstDevice * device, const gchar * name)
   elem = gst_element_factory_make (dev->element, name);
   g_object_set (elem, "device", dev->device, NULL);
   g_object_set (elem, "device-name", dev->device_name, NULL);
+  g_object_set (elem, "device-index", dev->device_index, NULL);
 
   return elem;
 }
